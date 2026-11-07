@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tienda de Ropa</title>
+  <meta name="description" content="Prendas de vestir disponibles y en existencia. Compra por formulario o WhatsApp.">
+  <link rel="stylesheet" href="/styles.css">
+
+  <!-- SDK Oficial de EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+      (function(){
+          emailjs.init("knTqK0Dx9F8osIADd");
+      })();
+  </script>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap bar">
+      <a class="brand" href="#inicio" id="brand">Mi Tienda de Ropa</a>
+      <nav>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#resenas">Reseñas</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <div class="wrap">
+        <h1>Ropa con estilo, lista para ti</h1>
+        <p>Mira lo que tenemos disponible y en existencia. Pregunta o compra por formulario o directo por WhatsApp.</p>
+        <a class="btn" href="#catalogo">Ver catálogo</a>
+      </div>
+    </section>
+
+    <section id="catalogo" class="wrap section">
+      <h2>Catálogo</h2>
+      <div class="filters">
+        <input type="search" id="search" placeholder="Buscar prenda…" maxlength="60" aria-label="Buscar prenda">
+        <select id="category" aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
+        </select>
+        <label class="check"><input type="checkbox" id="onlyStock"> Solo disponibles</label>
+      </div>
+      <div id="grid" class="grid" aria-live="polite"></div>
+      <p id="empty" class="muted" hidden>No hay prendas que coincidan con tu búsqueda.</p>
+    </section>
+
+    <section id="resenas" class="wrap section">
+      <h2>Reseñas de clientes</h2>
+      <div id="reviews" class="reviews"></div>
+      <p id="noReviews" class="muted" hidden>Aún no hay reseñas. ¡Sé la primera persona en opinar!</p>
+
+      <form id="reviewForm" class="card form" novalidate>
+        <h3>Deja tu reseña</h3>
+        <div class="hp" aria-hidden="true"><label>No llenar<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <label>Nombre
+          <input name="name" required minlength="2" maxlength="60" autocomplete="name">
+        </label>
+        <label>Calificación
+          <select name="rating" required>
+            <option value="5">★★★★★ Excelente</option>
+            <option value="4">★★★★☆ Muy buena</option>
+            <option value="3">★★★☆☆ Buena</option>
+            <option value="2">★★☆☆☆ Regular</option>
+            <option value="1">★☆☆☆☆ Mala</option>
+          </select>
+        </label>
+        <label>Comentario
+          <textarea name="comment" required minlength="5" maxlength="600" rows="4"></textarea>
+        </label>
+        <button class="btn" type="submit">Enviar reseña</button>
+        <p class="status" id="reviewStatus" role="status"></p>
+        <p class="muted small">Las reseñas se publican después de ser revisadas.</p>
+      </form>
+    </section>
+
+    <section id="contacto" class="wrap section">
+      <h2>¿Dudas o quieres comprar?</h2>
+      <div class="two">
+        <form id="contactForm" class="card form" novalidate>
+          <div class="hp" aria-hidden="true"><label>No llenar<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <label>Motivo
+            <select name="type">
+              <option value="duda">Tengo una duda</option>
+              <option value="compra">Quiero comprar</option>
+            </select>
+          </label>
+          <label>Prenda (opcional)
+            <select name="product_id" id="productSelect"><option value="">— Ninguna en particular —</option></select>
+          </label>
+          <label>Nombre
+            <input name="name" required minlength="2" maxlength="80" autocomplete="name">
+          </label>
+          <label>Correo
+            <input name="email" type="email" maxlength="120" autocomplete="email">
+          </label>
+          <label>Teléfono
+            <input name="phone" type="tel" maxlength="20" autocomplete="tel">
+          </label>
+          <p class="muted small">Indica al menos un correo o un teléfono para responderte.</p>
+          <label>Mensaje
+            <textarea name="message" required minlength="5" maxlength="1000" rows="5"></textarea>
+          </label>
+          <button class="btn" id="btnContactSubmit" type="submit">Enviar</button>
+          <p class="status" id="contactStatus" role="status"></p>
+        </form>
+
+        <aside class="card wa">
+          <h3>¿Prefieres WhatsApp?</h3>
+          <p>Si no quieres llenar el formulario ni enviar un correo, escríbenos directo y te respondemos por ahí.</p>
+          <a class="btn wa-btn" id="waMain" href="#contacto" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <a class="wa-float" id="waFloat" href="#contacto" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp" hidden>WhatsApp</a>
+
+  <foot class="foot"><div class="wrap">© <span id="year"></span> <span id="footName">Mi Tienda de Ropa</span>. Todos los derechos reservados.</div></foot>
+
+  <script src="/app.js"></script>
+
+  <!-- Script de EmailJS para el formulario de contacto -->
+  <script>
+    const contactForm = document.getElementById('contactForm');
+    const contactStatus = document.getElementById('contactStatus');
+    const btnContactSubmit = document.getElementById('btnContactSubmit');
+
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        btnContactSubmit.textContent = 'Enviando...';
+        contactStatus.textContent = '';
+
+        const serviceID = 'service_w03pjuo';
+        const templateID = 'template_g79by7p';
+        const publicKey = 'g6FaoD0hID-OMgAnn';
+
+        emailjs.sendForm(serviceID, templateID, this, publicKey)
+            .then(() => {
+                btnContactSubmit.textContent = 'Enviar';
+                contactStatus.textContent = '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo.';
+                contactStatus.style.color = '#00C2A8';
+                this.reset();
+            }, (err) => {
+                btnContactSubmit.textContent = 'Enviar';
+                contactStatus.textContent = 'Error al enviar el mensaje. Por favor, inténtalo de nuevo.';
+                contactStatus.style.color = '#FF3E7F';
+                console.error('EmailJS Error:', err);
+            });
+    });
+  </script>
+</body>
+</html>

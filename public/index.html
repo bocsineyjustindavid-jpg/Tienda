@@ -16,16 +16,35 @@
   </script>
 </head>
 <body>
+
   <header class="top">
-    <div class="wrap bar">
-      <a class="brand" href="#inicio" id="brand">Mi Tienda de Ropa</a>
-      <nav>
-        <a href="#catalogo">Catálogo</a>
-        <a href="#resenas">Reseñas</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
-    </div>
-  </header>
+  <div class="wrap bar">
+    <a href="#" class="brand">
+      Mi Tienda de Ropa
+    </a>
+    
+    <nav>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#resenas">Reseñas</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+     <button class="nav-toggle" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('nav');
+
+  toggleBtn.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+  });
+</script>
 
   <main>
     <section id="inicio" class="hero">

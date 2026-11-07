@@ -6,6 +6,8 @@
   --accent-ink: #fff;
   --card: #ffffff;
   --line: #e6dfd4;
+  --top-border: #333333; /* Borde superior estilo CoopUnión */
+  --bottom-bar: #e8d9c5;  /* Borde inferior beige acorde al diseño original */
   --ok: #2f7d4f;
   --warn: #b7791f;
   --bad: #b3372f;
@@ -19,7 +21,7 @@ body {
   background: var(--bg);
   color: var(--ink);
   line-height: 1.5;
-}
+} 
 .wrap { width: min(1100px, 92%); margin-inline: auto; }
 .section { padding: 48px 0; }
 h1, h2, h3 { line-height: 1.2; margin: 0 0 12px; }
@@ -29,11 +31,71 @@ h2 { font-size: 1.7rem; margin-bottom: 20px; }
 .small { font-size: .85rem; }
 [hidden] { display: none !important; }
 
-.top { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid var(--line); }
+/* ===== MENÚ ADAPTADO AL ESTILO DE LA PRIMERA IMAGEN ===== */
+.top { 
+  position: sticky; 
+  top: 0; 
+  z-index: 10; 
+  background: var(--card); 
+  border-top: 4px solid var(--top-border);
+  border-bottom: 5px solid var(--bottom-bar);
+}
 .bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 16px; }
 .brand { font-weight: 700; font-size: 1.2rem; color: var(--accent); text-decoration: none; }
+nav { display: flex; align-items: center; gap: 20px; }
 nav a { margin-left: 18px; color: var(--ink); text-decoration: none; font-weight: 500; }
 nav a:hover { color: var(--accent); }
+
+/* Ícono de tres líneas (Hamburguesa) estilo CoopUnión en color marrón */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+}
+.nav-toggle span {
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle { display: flex; }
+  
+  nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 16px; /* Lo alinea hacia el lado derecho */
+    width: 180px; /* Ancho compacto en lugar de toda la pantalla */
+    background: var(--card);
+    flex-direction: column;
+    padding: 10px 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+
+  nav.active { display: flex; }
+
+  nav a { 
+    margin-left: 0; 
+    padding: 10px 20px; 
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f4ede2;
+  }
+
+  nav a:last-child {
+    border-bottom: none;
+  }
+}
 
 .hero { background: linear-gradient(135deg, #f1e6d6, #e8d3bb); padding: 72px 0; }
 .hero p { max-width: 560px; color: var(--muted); font-size: 1.1rem; margin-bottom: 24px; }

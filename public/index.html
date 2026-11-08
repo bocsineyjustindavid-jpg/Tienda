@@ -11,40 +11,43 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script type="text/javascript">
       (function(){
-          emailjs.init("knTqK0Dx9F8osIADd");
+          // Usa tu clave pública única y correcta aquí
+          emailjs.init({
+            publicKey: "g6FaoD0hID-OMgAnn"
+          });
       })();
   </script>
 </head>
 <body>
 
   <header class="top">
-  <div class="wrap bar">
-    <a href="#" class="brand">
-      Mi Tienda de Ropa
-    </a>
-    
-    <nav>
-      <a href="#catalogo">Catálogo</a>
-      <a href="#resenas">Reseñas</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
+    <div class="wrap bar">
+      <a href="#" class="brand">
+        Mi Tienda de Ropa
+      </a>
+      
+      <nav>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#resenas">Reseñas</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
 
-     <button class="nav-toggle" aria-label="Abrir menú">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-</header>
+      <button class="nav-toggle" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
 
-<script>
-  const toggleBtn = document.querySelector('.nav-toggle');
-  const navMenu = document.querySelector('nav');
+  <script>
+    const toggleBtn = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('nav');
 
-  toggleBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-  });
-</script>
+    toggleBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+  </script>
 
   <main>
     <section id="inicio" class="hero">
@@ -139,11 +142,12 @@
 
   <a class="wa-float" id="waFloat" href="#contacto" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp" hidden>WhatsApp</a>
 
-  <foot class="foot"><div class="wrap">© <span id="year"></span> <span id="footName">Mi Tienda de Ropa</span>. Todos los derechos reservados.</div></foot>
+  <!-- Corrección: Se cambió <foot> por <footer> -->
+  <footer class="foot"><div class="wrap">© <span id="year"></span> <span id="footName">Mi Tienda de Ropa</span>. Todos los derechos reservados.</div></footer>
 
   <script src="/app.js"></script>
 
-  <!-- Script de EmailJS para el formulario de contacto -->
+  <!-- Script de EmailJS optimizado -->
   <script>
     const contactForm = document.getElementById('contactForm');
     const contactStatus = document.getElementById('contactStatus');
@@ -152,14 +156,20 @@
     contactForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
+        // Protección anti-spam (Honeypot)
+        const honeypot = this.querySelector('input[name="website"]');
+        if (honeypot && honeypot.value !== '') {
+            return; 
+        }
+
         btnContactSubmit.textContent = 'Enviando...';
         contactStatus.textContent = '';
 
         const serviceID = 'service_w03pjuo';
         const templateID = 'template_g79by7p';
-        const publicKey = 'g6FaoD0hID-OMgAnn';
 
-        emailjs.sendForm(serviceID, templateID, this, publicKey)
+        // Como ya inicializamos emailjs arriba, sendForm solo requiere serviceID, templateID y el formulario (this)
+        emailjs.sendForm(serviceID, templateID, this)
             .then(() => {
                 btnContactSubmit.textContent = 'Enviar';
                 contactStatus.textContent = '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo.';
